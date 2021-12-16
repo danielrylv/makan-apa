@@ -25,27 +25,29 @@ class Controller {
     res.render("login", { error });
   }
 
-  static postLogin(req, res) {
-    const { fullname, password } = req.body;
-    User.findOne({ where: { fullname } })
-      .then((data) => {
-        if (data) {
-          req.session.userId = data.id;
-          const isPassword = bcrypt.compareSync(password, data.password);
-          if (isPassword) {
-            return res.redirect("/timeline");
-          } else {
-            const error = "INVALID FULLNAME OR PASSWORD";
-            return res.redirect(`/user/login?error=${error}`);
-          }
+  static postLogin(req, res, next) {
+    const { email, password } = req.body;
+
+    User.findOne({ where: { email } })
+      .then((user) => {
+        if (user) {
+          req.session.userId = user.id;
+
+          return bcrypt.compare(password, user.password);
+        } 
+
+        return Promise.resolve(false);
+      })
+      .then(isCorrect => {
+        if (isCorrect) {
+          res.redirect("/timeline");
         } else {
-          const error = "INVALID FULLNAME OR PASSWORD";
+          const error = "invalid email or password";
+
           return res.redirect(`/user/login?error=${error}`);
         }
       })
-      .catch((err) => {
-        res.send(err);
-      });
+      .catch(next);
   }
 
   static profile(req, res, next) {

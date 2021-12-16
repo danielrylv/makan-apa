@@ -19,7 +19,8 @@ class Controller{
     }
 
     static login(req, res){
-        res.render('login')
+        const { error } = req.query
+        res.render('login', { error })
     }
 
     static postLogin(req, res){
@@ -27,6 +28,7 @@ class Controller{
         User.findOne({ where: { fullname } })
         .then(data => {
             if(data){
+                req.session.userId = data.id
                 const isPassword = bcrypt.compareSync(password, data.password);
                 if(isPassword){
                     return res.redirect('/user/home');
@@ -34,6 +36,9 @@ class Controller{
                     const error = 'INVALID FULLNAME OR PASSWORD'
                     return res.redirect(`/user/login?error=${error}`)
                 }
+            }else{
+                const error = 'INVALID FULLNAME OR PASSWORD'
+                return res.redirect(`/user/login?error=${error}`)
             }
         })
         .catch(err => {

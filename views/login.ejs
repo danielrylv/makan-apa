@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1>Log In</h1>
+    <% if(error) { %>
+        <p><%= error %></p>
+    <% } %>
     <form action="/user/login" method="post">
         <label>Fullname: </label>
         <input type="text" name="fullname"><br><br>

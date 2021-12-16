@@ -8,7 +8,8 @@ router.post('/registration', userController.addUser);
 router.get('/login', userController.login);
 router.post('/login', userController.postLogin);
 router.get('/timeline', commonController.showTimeline);
-router.use('/user', require('./userRoutes'));
+router.use('/api', require('./api'));
+router.use('/user', require('./user'));
 router.use('/', (req, res) => res.send('home'));
 
 module.exports = router;

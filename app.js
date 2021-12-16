@@ -1,9 +1,11 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const loginEnforcer = require('./middlewares/loginEnforcer');
+const envConfigurator = require('./middlewares/envConfigurator');
 const app = express();
-
 
 const PORT = 3000;
 
@@ -19,11 +21,12 @@ app.use(session({
     sameSite: true
   }
 }));
+app.use('/', envConfigurator);
 app.use('/', loginEnforcer);
 app.use('/', require('./routes'));
 app.use((err, req, res, next) => {
   console.log(err);
-  res.send(err);
+  res.status(500).send(err);
 });
 
 app.listen(PORT, () => {

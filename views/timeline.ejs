@@ -2,6 +2,8 @@
 <html>
 <head>
   <title>Makan Apa</title>
+  <script src="https://kit.fontawesome.com/296c028d74.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="/static/general.css" />
   <link rel="stylesheet" href="/static/posts.css" />
 </head>
@@ -12,27 +14,60 @@
   <a href="/home">Home</a>
   <main>
     <div id="posts-container">
-      <div class="user-post">
-        <div class="user-photo">
-          <img class="user-photo" 
-            src="https://toppng.com/uploads/preview/icons-logos-emojis-user-icon-png-transparent-11563566676e32kbvynug.png"/>
+      <% posts.forEach(post => { %>
+        <% let isLiked = post.Likes.some(v => v.UserId == userId ) %>
+
+        <div class="user-post">
+          <div class="user-photo">
+            <img class="user-photo" 
+              src="https://toppng.com/uploads/preview/icons-logos-emojis-user-icon-png-transparent-11563566676e32kbvynug.png"/>
+          </div>
+          <div class="second-col">
+            <div><%= post.User.fullname %></div>
+            <div>
+              <%= post.content %>
+            </div>
+            <div>
+              <img class="post-img"
+                src="<%= post.imgUrl %>"/>
+            </div>
+            <div>
+              <span id="like-<%= post.id %>" class="like" 
+                  onclick="handleLike('<%= post.id %>')"
+                  <%= isLiked ? 'data-liked=true' : '' %>
+              ><i class="far fa-thumbs-up"></i></span>
+              <span id="likes-<%= post.id %>-count"><%= post.Likes.length %></span>
+            </div>
+          </div>
         </div>
-        <div class="second-col">
-          <div>Joko Kaesang</div>
-          <div>
-            Baksonya Pak Bambang emang recommended bgt... 
-            baksonya super bulet...
-          </div>
-          <div>
-            <img class="post-img" 
-              src="https://assets.pikiran-rakyat.com/crop/0x0:0x0/750x500/photo/2020/08/29/198851879.jpg"/>
-          </div>
-          <div>
-            Like
-          </div>
-        </div>
-      </div>
+      <% }) %>
     </div>
   </main>
+  <script>
+    const rootUrl = getRootUrl();
+    const userId = '<%= userId %>';
+
+    function handleLike(postId) {
+      $.post(`${rootUrl}/api/user/${userId}/post/${postId}/like`)
+        .fail((xhr, status, error) => console.log(xhr.status, xhr.responseText))
+        .done(data => {
+          const elementId = `likes-${postId}-count`;
+          
+          document.getElementById(elementId).innerHTML = data.likes_count;
+        });
+    }
+
+    function getRootUrl() {
+      let { protocol, hostname, port } = window.location;
+
+      if (port) {
+        port = `:${port}`;
+      } else {
+        port = '';
+      }
+
+      return `${protocol}//${hostname}${port}`;
+    }
+  </script>
 </body>
 </html>

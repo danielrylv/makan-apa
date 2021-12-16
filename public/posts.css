@@ -26,3 +26,14 @@
 .post-img {
   max-height: 200px;
 }
+
+.like {
+  padding: 7px;;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.like:hover {
+  color: dodgerblue;
+  background-color: rgb(203, 227, 235);
+}

@@ -22,7 +22,14 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     role: DataTypes.STRING
-  }, {
+  },{
+    hooks: {
+      beforeCreate: (instance, option) => {
+        let words = instance.fullname.split(' ')
+        let codeName = words.map(el => `${el[0].toLowerCase()}${el.slice(1).toLowerCase()}`);
+        instance.username = codeName.join('_');
+      }
+    },
     sequelize,
     modelName: 'User',
   });

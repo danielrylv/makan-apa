@@ -6,6 +6,7 @@ class Controller {
       .then(posts => res.render('timeline', { posts }))
       .catch(next);
   }
+
 }
 
 module.exports = Controller;

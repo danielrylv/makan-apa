@@ -44,31 +44,6 @@
       <% }) %>
     </div>
   </main>
-  <script>
-    const rootUrl = getRootUrl();
-    const userId = '<%= userId %>';
-
-    function handleLike(postId) {
-      $.post(`${rootUrl}/api/user/${userId}/post/${postId}/like`)
-        .fail((xhr, status, error) => console.log(xhr.status, xhr.responseText))
-        .done(data => {
-          const elementId = `likes-${postId}-count`;
-          
-          document.getElementById(elementId).innerHTML = data.likes_count;
-        });
-    }
-
-    function getRootUrl() {
-      let { protocol, hostname, port } = window.location;
-
-      if (port) {
-        port = `:${port}`;
-      } else {
-        port = '';
-      }
-
-      return `${protocol}//${hostname}${port}`;
-    }
-  </script>
+  <%- include('partials/script-like') %>
 </body>
 </html>

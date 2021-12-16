@@ -1,4 +1,4 @@
-const { Post, User, Profile } = require("../models");
+const { Post, User, Profile, Tag, PostTag } = require("../models");
 const bcrypt = require("bcryptjs");
 
 class Controller {
@@ -52,14 +52,20 @@ class Controller {
 
   static profile(req, res, next) {
     User.findByPk(req.params.userId, {
-      include: [Profile, Post]
+      include: [Profile, {
+        model: Post,
+        include: ['User', 'Likes', 'Tags']
+      }]
     })
     .then(user => {
       if (!user.Profile) {
         return res.redirect('/user/create/profile')
       }
 
-      res.render('profile', { user });
+      res.render('profile', {
+        user,
+        userId: req.session.userId
+      });
     })
     .catch(next);
   }
@@ -120,9 +126,40 @@ class Controller {
       if(err){
         res.send(err)
       }else{
-        res.redirect('/user/login')
+        res.redirect('/login')
       }
     })
+  }
+
+  static showPostCreationPage(req, res, next) {
+    Tag.findAll()
+      .then(tags => res.render('post-add', {
+        tags,
+        userId: req.session.userId
+      }))
+      .catch(next);
+  }
+
+  static addPost(req, res, next) {
+    Post.create({
+      content: req.body.content,
+      imgUrl: req.body.imageUrl,
+      UserId: req.params.userId
+    })
+    .then(post => {
+      const tagIds = Object.keys(req.body)
+        .filter(v => v.substring(0, 3) == 'tag')
+        .map(v => v.split('-')[1]);
+
+      const postTags = tagIds.map(id => ({
+        PostId: post.id,
+        TagId: id
+      }));
+
+      return PostTag.bulkCreate(postTags);
+    })
+    .then(() => res.redirect(`/user/${req.params.userId}`))
+    .catch(next);
   }
 }
 

@@ -7,6 +7,8 @@ router.post('/create/profile', Controller.addProfile);
 router.get('/edit/profile', Controller.editProfile);
 router.post('/edit/profile', Controller.postEdit);
 router.get('/logout', Controller.logout);
+router.get('/:userId/post/add', Controller.showPostCreationPage);
+router.post('/:userId/post/add', Controller.addPost);
 router.get('/:userId', Controller.profile);
 
 module.exports = router;

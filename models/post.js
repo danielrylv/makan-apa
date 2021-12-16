@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Post.belongsTo(models.User, { foreignKey : 'UserId' });
-      Post.belongsToMany(models.Tag, { through: 'PostTags' });
-      Post.hasMany(models.Like, { foreignKey : 'PostId' });
+      Post.belongsToMany(models.Tag, { through: 'PostTags', onDelete: 'CASCADE' });
+      Post.hasMany(models.Like, { onDelete: 'CASCADE' });
     }
   };
   Post.init({
@@ -24,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Post',
+    hooks: {
+      beforeCreate(post) {
+        post.blocked = false;
+      }
+    }
   });
   return Post;
 };

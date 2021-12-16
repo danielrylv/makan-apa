@@ -4,13 +4,21 @@
 }
 
 .user-post {
+  margin: 20px 0;
+  padding: 15px 0;
   display: flex;
   flex-direction: row;
+  border-top: 1px solid #999;
 }
 
 .user-post .second-col {
   padding: 0 25px;
   flex: 1 1 auto;
+}
+
+.user-post .second-col > div:first-child {
+  display: flex;
+  justify-content: space-between;
 }
 
 .user-post .second-col > div {

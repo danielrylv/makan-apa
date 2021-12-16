@@ -1,4 +1,4 @@
-const { Post } = require('../models');
+const { Post, Like, PostTag } = require('../models');
 
 class Controller {
   static showTimeline(req, res, next) {
@@ -10,8 +10,30 @@ class Controller {
       .catch(next);
   }
 
-  static home(req, res){
-
+  static deletePost(req, res, next) {
+    PostTag.destroy({
+      where: {
+        PostId: req.params.postId
+      }
+    })
+    .then(() => {
+      return Like.destroy({
+        where: {
+          PostId: req.params.postId
+        }
+      });
+    })
+    .then(() => {
+      return Post.destroy({
+        where: {
+          id: req.params.postId
+        }
+      });
+    })
+    .then(() => {
+      res.redirect(`/user/${req.session.userId}`)
+    })
+    .catch(next);
   }
 }
 

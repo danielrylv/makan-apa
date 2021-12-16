@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Makan Apa</title>
+  <link rel="stylesheet" href="/static/general.css" />
+  <link rel="stylesheet" href="/static/post-add.css" />
+</head>
+<body>
+  <main>
+    <form action="/user/<%= userId %>/post/add" method="POST">
+      <div>
+        <div for="post-content"><label>Konten</label></div>
+        <div><textarea id="post-content" name="content" rows="4"></textarea></div>
+      </div>
+      <div>
+        <div><label for="post-imgUrl">Link Gambar</label></div>
+        <div><input for="post-imgUrl" name="imgUrl" type="text"/></div>
+      </div>
+      <div id="tags">
+        <% tags.forEach(tag => { %>
+          <div>
+            <input type="checkbox" id="tag-<%= tag.id %>" name="tag-<%= tag.id%>" value="true" />
+            <label for="tag-<%= tag.id %>"><%= tag.name %></label>
+          </div>
+        <% }) %>
+      </div>
+      <div>
+        <button>Kirim</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

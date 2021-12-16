@@ -1,4 +1,5 @@
 const BYPASSED = {
+  '/': true,
   '/login': true,
   '/registration': true,
   '/': true

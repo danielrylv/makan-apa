@@ -1,0 +1,25 @@
+form {
+  max-width: 600px;
+  margin: auto;
+}
+
+form > div {
+  margin: 15px 0;
+}
+
+#tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#tags > div {
+  margin: 7px 5px;
+  display: flex;
+  align-items: center;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  box-sizing: border-box;
+}

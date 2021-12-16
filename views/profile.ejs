@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <head>
   <title>Makan Apa</title>
+  <script src="https://kit.fontawesome.com/296c028d74.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="/static/general.css" />
   <link rel="stylesheet" href="/static/posts.css" />
+  <link rel="stylesheet" href="/static/profile.css" />
 </head>
 <body>
   <%- include('partials/navbar.ejs', { userId: user.id }) %>
@@ -16,18 +19,10 @@
     </div>
     <hr />
     <div id="posts-container">
-      <div class="user-post">
-        <div class="user-photo">
-          <img class="user-photo" 
-            src="https://toppng.com/uploads/preview/icons-logos-emojis-user-icon-png-transparent-11563566676e32kbvynug.png"/>
-        </div>
-        <div class="second-col">
-          <div><%= user.fullname %></div>
-          <div>
-            <textarea rows="4" placeholder="tulis sesuatu..."
-            ></textarea>
-          </div>
-        </div>
+      <div id="add-post-btn">
+        <a href="/user/<%= user.id%>/post/add">
+          <button>Tulis Konten Baru</button>
+        </a>
       </div>
       <% user.Posts.forEach(post => { %>
         <% let isLiked = post.Likes.some(v => v.UserId == userId ) %>
@@ -37,13 +32,22 @@
               src="https://toppng.com/uploads/preview/icons-logos-emojis-user-icon-png-transparent-11563566676e32kbvynug.png"/>
           </div>
           <div class="second-col">
-            <div><%= post.User.fullname %></div>
             <div>
-              <%= post.content %>
+              <div><%= post.User.fullname %></div>
+              <div>
+                <form action="/post/<%= post.id %>/delete" method="POST">
+                  <button>delete</button>
+                </form>
+              </div>
             </div>
             <div>
-              <img class="post-img"
-                src="<%= post.imgUrl %>"/>
+              <%= post.content %>
+              <% post.Tags.forEach(tag => { %>
+                <%= `#${tag.name} ` %>
+              <% }) %>
+            </div>
+            <div>
+              <img class="post-img" src="<%= post.imgUrl %>"/>
             </div>
             <div>
               <span id="like-<%= post.id %>" class="like" 
@@ -57,5 +61,6 @@
       <% }) %>
     </div>
   </main>
+  <%- include('partials/script-like') %>
 </body>
 </html>

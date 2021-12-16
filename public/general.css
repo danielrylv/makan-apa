@@ -8,7 +8,11 @@ main {
   padding: 25px 0;
 }
 
-textarea {
-  border-radius: 5px;
+input, textarea {
   padding: 10px;
+}
+
+button {
+  padding: 7px 15px;
+  cursor: pointer;
 }

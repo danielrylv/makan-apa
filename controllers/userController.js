@@ -13,12 +13,12 @@ class Controller{
             res.redirect('/user/login')
         })
         .catch(err => [
-            res.send(data)
+            res.send(err)
         ])
     }
 
     static login(req, res){
-        
+        res.send('halo');
     }
 }
 

@@ -37,3 +37,7 @@
   color: dodgerblue;
   background-color: rgb(203, 227, 235);
 }
+
+#posts-container textarea {
+  width: 100%;
+}

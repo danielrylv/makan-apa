@@ -1,4 +1,4 @@
-const { User, Profile } = require('../models');
+const { Post, User, Profile } = require('../models');
 const bcrypt = require('bcryptjs')
 
 class Controller {
@@ -52,24 +52,18 @@ class Controller {
       })
   }
 
-  static profile(req, res) {
-    Profile.findAll({
-      include: User,
-      where: {
-        UserId: req.session.userId
-      }
+  static profile(req, res, next) {
+    User.findByPk(req.params.userId, {
+      include: [Profile, Post]
     })
-      .then(data => {
-        if (data.length) {
-          res.render('profile', { data })
-        }
-        if (!data.length) {
-          res.redirect('/user/create/profile')
-        }
-      })
-      .catch(err => {
-        res.send(err);
-      })
+    .then(user => {
+      if (!user.Profile) {
+        return res.redirect('/user/create/profile')
+      }
+
+      res.render('profile', { user });
+    })
+    .catch(next);
   }
 
   static newProfile(req, res) {

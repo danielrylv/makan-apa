@@ -1,6 +1,10 @@
 const { Post, Like, PostTag } = require('../models');
 
 class Controller {
+  static showHome(req, res) {
+    res.render('home');
+  }
+
   static showTimeline(req, res, next) {
     Post.findAll({ include: ['User', 'Likes'] })
       .then(posts => res.render('timeline', {

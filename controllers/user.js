@@ -6,10 +6,6 @@ class Controller {
     res.render("registration");
   }
 
-  static home(req, res) {
-    res.render("home");
-  }
-
   static addUser(req, res) {
     const { fullname, email, password, role } = req.body;
     const value = { fullname, email, password, role };

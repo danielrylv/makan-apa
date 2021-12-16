@@ -6,6 +6,7 @@ const PORT = 3000;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/static', express.static('public'));
 app.use('/', require('./routes'));
 app.use((err, req, res, next) => {
   console.log(err);

@@ -9,6 +9,7 @@ router.post('/edit/profile', Controller.postEdit);
 router.get('/logout', Controller.logout);
 router.get('/:userId/post/add', Controller.showPostCreationPage);
 router.post('/:userId/post/add', Controller.addPost);
+router.get('/:userId/chat', Controller.showChat);
 router.get('/:userId', Controller.profile);
 
 module.exports = router;

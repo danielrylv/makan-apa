@@ -2,7 +2,7 @@
   "name": "makan-apa",
   "version": "1.0.0",
   "description": "social media for sharing about foods",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,7 +25,8 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "pg": "^8.7.1",
-    "sequelize": "^6.12.0-beta.3"
+    "sequelize": "^6.12.0-beta.3",
+    "socket.io": "^4.4.0"
   },
   "devDependencies": {
     "sequelize-cli": "^6.3.0"

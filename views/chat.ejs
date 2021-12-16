@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Makan Apa</title>
+  <link rel="stylesheet" href="/static/general.css" />
+  <link rel="stylesheet" href="/static/chat.css" />
+</head>
+<body>
+  <main>
+    <div id="recipient-info">
+      <div>
+        <img class="user-photo" 
+          src="https://toppng.com/uploads/preview/icons-logos-emojis-user-icon-png-transparent-11563566676e32kbvynug.png"/>
+      </div>
+      <div>
+        <%= user.fullname %>
+      </div>
+    </div>
+    <div id="chat-box"></div>
+    <div id="message-box">
+      <textarea id="message" rows="4" 
+        placeholder="tulis pesan..."
+      ></textarea>
+      <button onclick="send()">Send</button>
+    </div>
+  </main>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const rootUrl = getRootUrl();
+    const socket = io(rootUrl, { autoConnect: false });
+    const targetId = '<%= user.id %>';
+
+    socketConnect();
+
+    function send() {
+      const content = document.getElementById('message').value;
+
+      if (!content) {
+        return;
+      }
+      
+      const innerChatBubble = document.createElement('div');
+      innerChatBubble.textContent = content;
+
+      const chatBubble = document.createElement('div');
+      chatBubble.classList.add('chat-bubble', 'flex-right');
+      chatBubble.appendChild(innerChatBubble);
+
+      const chatSender = document.createElement('div');
+      chatSender.classList.add('chat-sender', 'flex-right');
+      chatSender.appendChild(chatBubble);
+
+      const chatBox = document.getElementById('chat-box');
+      chatBox.appendChild(chatSender);
+      chatBox.scrollTo(0, chatBox.scrollHeight);
+
+      socket.emit('chat message', {
+        content,
+        to: targetId
+      });
+
+      document.getElementById('message').value = '';
+    }
+
+    function socketConnect() {
+      const userId = '<%= userId %>';
+
+      socket.auth = { userId };
+      socket.connect();
+
+      socket.on('chat message', ({ content, from }) => {
+        const innerChatBubble = document.createElement('div');
+        innerChatBubble.textContent = content;
+
+        const chatBubble = document.createElement('div');
+        chatBubble.classList.add('chat-bubble', 'flex-left');
+        chatBubble.appendChild(innerChatBubble);
+        
+        const chatRecipient = document.createElement('div');
+        chatRecipient.classList.add('chat-recipient', 'flex-left');
+        chatRecipient.appendChild(chatBubble);
+
+        const chatBox = document.getElementById('chat-box');
+        chatBox.appendChild(chatRecipient);
+        chatBox.scrollTo(0, chatBox.scrollHeight);
+      });
+    }
+
+    function getRootUrl() {
+      let { protocol, hostname, port } = window.location;
+
+      if (port) {
+        port = `:${port}`;
+      } else {
+        port = '';
+      }
+
+      return `${protocol}//${hostname}${port}`;
+    }
+  </script>
+</body>
+</html>

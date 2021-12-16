@@ -157,6 +157,15 @@ class Controller {
     .then(() => res.redirect(`/user/${req.params.userId}`))
     .catch(next);
   }
+
+  static showChat(req, res, next) {
+    User.findByPk(req.params.userId)
+      .then(user => res.render('chat', {
+        user,
+        userId: req.session.userId
+      }))
+      .catch(next);
+  }
 }
 
 module.exports = Controller;

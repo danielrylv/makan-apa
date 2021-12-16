@@ -5,9 +5,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const loginEnforcer = require('./middlewares/loginEnforcer');
 const envConfigurator = require('./middlewares/envConfigurator');
-const app = express();
 
-const PORT = 3000;
+const app = express();
 
 app.set('view engine', 'ejs');
 app.use('/static', express.static('public'));
@@ -29,6 +28,4 @@ app.use((err, req, res, next) => {
   res.status(500).send(err);
 });
 
-app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
-});
+module.exports = app;

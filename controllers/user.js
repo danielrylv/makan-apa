@@ -13,7 +13,9 @@ class Controller {
       include: Profile,
     })
       .then((data) => {
-        res.redirect("/user/login");
+        req.session.userId = data.id;
+
+        res.redirect("/timeline");
       })
       .catch((err) => [res.send(err)]);
   }

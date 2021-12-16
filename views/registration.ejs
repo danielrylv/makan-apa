@@ -12,22 +12,21 @@
       <form action="/registration" method="post" class="form">
         <h1 class="title">Daftar</h1>
         <div class="inputContainer">
-          <label class="label">Fullname: </label>
-          <input type="text" class="input" name="fullname" />
+          <!-- <label class="label">Fullname: </label> -->
+          <input type="text" name="fullname"
+            class="input" placeholder="Fullname:"/>
         </div>
         <div class="inputContainer">
-          <label class="label">Email: </label>
-          <input type="text" class="input" name="email" />
+          <!-- <label class="label">Email: </label> -->
+          <input type="text" name="email"
+            class="input" placeholder="Email:"/>
         </div>
         <div class="inputContainer">
-          <label class="label">Password: </label>
-          <input type="password" class="input" name="password" />
+          <!-- <label class="label">Password: </label> -->
+          <input type="password" name="password"
+            class="input" placeholder="Password:"/>
         </div>
-        <div class="select-dropdown">
-          <select name="role">
-            <option value="admin" class="label">Admin</option>
-            <option value="user">User</option></select>
-        </div>
+        <input type="hidden" name="role" value="user" />
         <input type="submit" class="submitBtn" value="Daftar">
       </form>
     </div>

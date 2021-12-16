@@ -15,7 +15,9 @@
       <h3><%= user.fullname %></h3>
       <p><%= user.username %></p>
       <p><%= user.email %></p>
-      <button><a href="/user/edit/profile">Edit Profile</a></button>
+      <% if (user.id == userId){ %>
+        <button><a href="/user/edit/profile">Edit Profile</a></button>
+      <% } %>
     </div>
     <hr />
     <div id="posts-container">

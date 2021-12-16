@@ -1,0 +1,28 @@
+#posts-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.user-post {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-post .second-col {
+  padding: 0 25px;
+  flex: 1 1 auto;
+}
+
+.user-post .second-col > div {
+  margin-bottom: 10px;
+}
+
+.user-photo {
+  width: 63px;
+  height: 63px;
+  border-radius: 50%;  
+}
+
+.post-img {
+  max-height: 200px;
+}

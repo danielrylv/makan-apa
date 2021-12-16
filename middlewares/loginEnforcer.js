@@ -1,6 +1,7 @@
 const BYPASSED = {
   '/login': true,
-  '/registration': true
+  '/registration': true,
+  '/': true
 }
 
 module.exports = function(req, res, next){
@@ -14,5 +15,6 @@ module.exports = function(req, res, next){
 
   const error = `Login first!`
 
+  
   res.redirect(`/login?error=${error}`);
 }

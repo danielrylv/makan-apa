@@ -1,55 +1,53 @@
-const { Post, User, Profile } = require('../models');
-const bcrypt = require('bcryptjs')
+const { Post, User, Profile } = require("../models");
+const bcrypt = require("bcryptjs");
 
 class Controller {
   static registration(req, res) {
-    res.render('registration')
+    res.render("registration");
   }
 
   static home(req, res) {
-    res.render('home')
+    res.render("home");
   }
 
   static addUser(req, res) {
-    const { fullname, email, password, role } = req.body
-    const value = { fullname, email, password, role }
+    const { fullname, email, password, role } = req.body;
+    const value = { fullname, email, password, role };
     User.create(value, {
-      include: Profile
+      include: Profile,
     })
-      .then(data => {
-        res.redirect('/user/login')
+      .then((data) => {
+        res.redirect("/user/login");
       })
-      .catch(err => [
-        res.send(err)
-      ])
+      .catch((err) => [res.send(err)]);
   }
 
   static login(req, res) {
-    const { error } = req.query
-    res.render('login', { error })
+    const { error } = req.query;
+    res.render("login", { error });
   }
 
   static postLogin(req, res) {
-    const { fullname, password } = req.body
+    const { fullname, password } = req.body;
     User.findOne({ where: { fullname } })
-      .then(data => {
+      .then((data) => {
         if (data) {
-          req.session.userId = data.id
+          req.session.userId = data.id;
           const isPassword = bcrypt.compareSync(password, data.password);
           if (isPassword) {
-            return res.redirect('/user/home');
+            return res.redirect("/user/home");
           } else {
-            const error = 'INVALID FULLNAME OR PASSWORD'
-            return res.redirect(`/user/login?error=${error}`)
+            const error = "INVALID FULLNAME OR PASSWORD";
+            return res.redirect(`/user/login?error=${error}`);
           }
         } else {
-          const error = 'INVALID FULLNAME OR PASSWORD'
-          return res.redirect(`/user/login?error=${error}`)
+          const error = "INVALID FULLNAME OR PASSWORD";
+          return res.redirect(`/user/login?error=${error}`);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         res.send(err);
-      })
+      });
   }
 
   static profile(req, res, next) {
@@ -67,54 +65,64 @@ class Controller {
   }
 
   static newProfile(req, res) {
-    res.render('createProfile');
+    res.render("createProfile");
   }
 
   static addProfile(req, res) {
-    const { bio, gender, phone } = req.body
-    const value = { bio, gender, phone, UserId: req.session.userId }
+    const { bio, gender, phone } = req.body;
+    const value = { bio, gender, phone, UserId: req.session.userId };
     Profile.create(value)
-      .then(data => {
-        res.redirect('/user/profile')
+      .then((data) => {
+        res.redirect("/user/profile");
       })
-      .catch(err => {
+      .catch((err) => {
         res.send(err);
-      })
+      });
   }
 
   static editProfile(req, res) {
     Profile.findAll({
       include: User,
       where: {
-        UserId: req.session.userId
-      }
+        UserId: req.session.userId,
+      },
     })
-      .then(data => {
+      .then((data) => {
         if (data.length) {
-          res.render('editProfile', { data })
+          res.render("editProfile", { data });
         } else {
-          res.redirect('/user/create/profile')
+          res.redirect("/user/create/profile");
         }
       })
-      .catch(err => {
+      .catch((err) => {
         res.send(err);
-      })
+      });
   }
 
   static postEdit(req, res) {
-    const { bio, gender, phone } = req.body
-    const value = { bio, gender, phone }
+    const { bio, gender, phone } = req.body;
+    const value = { bio, gender, phone };
     Profile.update(value, {
       where: {
-        UserId: req.session.userId
+        UserId: req.session.userId,
+      },
+    })
+      .then((data) => {
+        res.redirect("/user/profile");
+      })
+      .catch((err) => {
+        res.send(err);
+      });
+  }
+
+  static logout(req, res) {
+    req.session.destroy((err) => {
+      if(err){
+        res.send(err)
+      }else{
+        res.redirect('/user/login')
       }
     })
-      .then(data => {
-        res.redirect('/user/profile')
-      })
-      .catch(err => {
-        res.send(err)
-      })
   }
 }
 

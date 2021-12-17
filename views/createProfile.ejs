@@ -4,21 +4,27 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/form.css" />
     <title>Create Profile</title>
   </head>
   <body>
-    <h3>Edit Profile</h3>
-    <form action="/user/create/profile" method="post">
-      <label>Bio :</label>
-      <input type="textarea" name="bio" /><br /><br />
-      <label>Gender : </label>
-      <select name="gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-      </select><br><br>
-      <label>Phone Number :</label>
-      <input type="text" name="phone" /><br /><br />
-      <button>submit</button>
-    </form>
+    <div class="signupFrm">
+      <form class="form" action="/user/create/profile" method="post" action="/registration">
+        <h3 class="title">Edit Profile</h3>
+        <div class="inputContainer">
+          <input class="input" type="textarea" name="bio" placeholder="bio"/>
+        </div>
+        <div class="inputContainer">
+          <input class="input" type="text" name="phone" placeholder="pone number"/>
+        </div>
+        <div class="select-dropdown">
+          <select name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <input type="submit" class="submitBtn" value="Edit">
+      </form>
+    </div>
   </body>
 </html>

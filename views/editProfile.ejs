@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/editprofile.css" />
+    <link rel="stylesheet" href="/static/form.css" />
     <title>Create Profile</title>
   </head>
   <body>
@@ -12,12 +12,10 @@
       <form action="/user/edit/profile" method="post" class="form"s>
         <h3 class="title">Edit Profile</h3>
         <div class="inputContainer">
-          <label class="label">Bio :</label>
-          <input type="textarea" class="input" name="bio" value="<%= data[0].bio %>" />
+          <input placeholder="bio" type="textarea" class="input" name="bio" value="<%= data[0].bio %>" />
         </div>
         <div class="inputContainer">
-          <label class="label">Phone Number :</label>
-          <input type="text" class="input" name="phone" value="<%= data[0].phone %>" />
+          <input placeholder="phone number" type="text" class="input" name="phone" value="<%= data[0].phone %>" />
         </div>
         <div class="select-dropdown">
           <select name="gender">

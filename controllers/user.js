@@ -27,7 +27,9 @@ class Controller {
 
         res.redirect("/timeline");
       })
-      .catch((err) => [res.send(err)]);
+      .catch(err => {
+        res.send(err.errors.map(el => el.message))
+      })
   }
 
   static login(req, res) {
@@ -54,7 +56,7 @@ class Controller {
         } else {
           const error = "invalid email or password";
 
-          return res.redirect(`/user/login?error=${error}`);
+          return res.redirect(`/login?error=${error}`);
         }
       })
       .catch(next);

@@ -90,13 +90,16 @@ body {
   background-color: #f28900;
   transform: translateY(-2px);
 }
-.input:focus + .label {
+.input:focus+.label {
   top: -7px;
   left: 3px;
   z-index: 10;
   font-size: 14px;
   font-weight: 600;
-  color: purple;
+  color: #f28900;
+}
+.input:focus { 
+  border: 2px solid #f28900; 
 }
 .input:not(:placeholder-shown) + .label {
   top: -7px;
@@ -125,7 +128,7 @@ body {
   font-size: 1rem;
   font-weight: lighter;
   width: 100%;
-  padding: 22px 24px 8px 10px;
+  padding: 22px 24px 8px 16px;
   border: none;
   background-color: transparent;
     -webkit-appearance: none;

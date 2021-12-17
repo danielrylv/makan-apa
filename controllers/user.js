@@ -61,7 +61,8 @@ class Controller {
       res.render('profile', {
         user,
         userId: req.session.userId
-      });
+      });log
+      // console.log(user.id);
     })
     .catch(next);
   }

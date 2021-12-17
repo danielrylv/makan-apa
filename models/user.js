@@ -35,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'Email harus diisi!'
+        },
+        isEmail: {
+          msg: 'Format email salah!'
         }
       }
     },
@@ -44,6 +47,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'Password harus diisi!'
+        },
+        len: {
+          args: [8],
+          msg: 'Password harus beriskan minimal 8 karakter!'
         }
       }
     },

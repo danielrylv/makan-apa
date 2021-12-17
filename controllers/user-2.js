@@ -17,7 +17,7 @@ class Controller {
       include: Profile
     })
       .then(data => {
-        res.redirect('/user/login')
+        res.redirect('/login')
       })
       .catch(err => [
         res.send(err)

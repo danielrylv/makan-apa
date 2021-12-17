@@ -69,7 +69,7 @@ class Controller {
     const value = { bio, gender, phone, UserId: req.session.userId };
     Profile.create(value)
       .then((data) => {
-        res.redirect("/user/profile");
+        res.redirect(`/user/${req.session.userId}`);
       })
       .catch((err) => {
         res.send(err);

@@ -6,18 +6,26 @@ class Controller {
     res.render("registration");
   }
 
-  static home(req, res) {
-    res.render("home");
-  }
-
   static addUser(req, res) {
-    const { fullname, email, password, role } = req.body;
-    const value = { fullname, email, password, role };
-    User.create(value, {
+    const user = ['fullname', 'email', 'password', 'role']
+      .reduce(
+        (obj, field) => (obj[field] = req.body[field], obj),
+        {}
+      );
+
+    user.Profile = ['bio', 'phone', 'gender']
+      .reduce(
+        (obj, field) => (obj[field] = req.body[field], obj),
+        {}
+      );
+
+    User.create(user, {
       include: Profile,
     })
       .then((data) => {
-        res.redirect("/user/login");
+        req.session.userId = data.id;
+
+        res.redirect("/timeline");
       })
       .catch((err) => [res.send(err)]);
   }
@@ -27,27 +35,29 @@ class Controller {
     res.render("login", { error });
   }
 
-  static postLogin(req, res) {
-    const { fullname, password } = req.body;
-    User.findOne({ where: { fullname } })
-      .then((data) => {
-        if (data) {
-          req.session.userId = data.id;
-          const isPassword = bcrypt.compareSync(password, data.password);
-          if (isPassword) {
-            return res.redirect("/timeline");
-          } else {
-            const error = "INVALID FULLNAME OR PASSWORD";
-            return res.redirect(`/user/login?error=${error}`);
-          }
+  static postLogin(req, res, next) {
+    const { email, password } = req.body;
+
+    User.findOne({ where: { email } })
+      .then((user) => {
+        if (user) {
+          req.session.userId = user.id;
+
+          return bcrypt.compare(password, user.password);
+        } 
+
+        return Promise.resolve(false);
+      })
+      .then(isCorrect => {
+        if (isCorrect) {
+          res.redirect("/timeline");
         } else {
-          const error = "INVALID FULLNAME OR PASSWORD";
+          const error = "invalid email or password";
+
           return res.redirect(`/user/login?error=${error}`);
         }
       })
-      .catch((err) => {
-        res.send(err);
-      });
+      .catch(next);
   }
 
   static profile(req, res, next) {
@@ -61,8 +71,7 @@ class Controller {
       res.render('profile', {
         user,
         userId: req.session.userId
-      });log
-      // console.log(user.id);
+      });
     })
     .catch(next);
   }

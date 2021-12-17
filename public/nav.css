@@ -1,0 +1,25 @@
+nav {
+  height: 55px;
+  padding: 20px 50px;
+  box-sizing: border-box;
+  background-color: crimson;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav h3 {
+  display: inline;
+  color: white;
+}
+
+nav a {
+  margin: 0 10px;
+  color: #ffdddd;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: white;
+}

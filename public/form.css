@@ -30,6 +30,13 @@ body {
   width: 90%;
   margin-bottom: 17px;
 }
+
+.textareaContainer {
+  position: relative;
+  height: 95px;
+  width: 90%;
+  margin-bottom: 17px;
+}
 /* Style the inputs */
 
 .input {
@@ -48,8 +55,11 @@ body {
 }
 
 /* Hide the placeholder texts (a) */
-::placeholder {
+/* ::placeholder {
   color: transparent;
+} */
+::placeholder {
+  color: #8d8f92;
 }
 
 /* Styling text labels */
@@ -69,7 +79,7 @@ body {
   margin-left: auto;
   padding: 15px 30px;
   border: none;
-  background-color: purple;
+  background-color: #fc940c;
   color: white;
   border-radius: 6px;
   cursor: pointer;
@@ -77,7 +87,7 @@ body {
   margin-top: 30px;
 }
 .submitBtn:hover {
-  background-color: #9867c5;
+  background-color: #f28900;
   transform: translateY(-2px);
 }
 .input:focus+.label {
@@ -86,10 +96,10 @@ body {
   z-index: 10;
   font-size: 14px;
   font-weight: 600;
-  color: purple;
+  color: #f28900;
 }
 .input:focus { 
-  border: 2px solid purple; 
+  border: 2px solid #f28900; 
 }
 .input:not(:placeholder-shown) + .label {
   top: -7px;
@@ -117,8 +127,8 @@ body {
   bottom: 7px;
   font-size: 1rem;
   font-weight: lighter;
-  max-width: 100%;
-  padding: 22px 24px 8px 10px;
+  width: 100%;
+  padding: 22px 24px 8px 16px;
   border: none;
   background-color: transparent;
     -webkit-appearance: none;
@@ -129,7 +139,7 @@ body {
   outline: none;
   box-shadow: none;
 }
-.select-dropdown:after {
+/* .select-dropdown:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -140,4 +150,12 @@ body {
   border-top: 5px solid #aaa;
   border-right: 5px solid transparent;
   border-left: 5px solid transparent;
+} */
+.select-dropdown select:disabled {
+  color: #aaa;
+}
+
+textarea.input {
+  padding: 10px 20px;
+  height: fit-content;
 }

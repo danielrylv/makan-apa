@@ -5,12 +5,11 @@
   <script src="https://kit.fontawesome.com/296c028d74.js" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <link rel="stylesheet" href="/static/general.css" />
+  <link rel="stylesheet" href="/static/nav.css" />
   <link rel="stylesheet" href="/static/posts.css" />
 </head>
 <body>
   <%- include('partials/navbar.ejs', { userId: userId }) %>
-  <h1>SELAMAT DATANG DI MAKAN APA</h1>
-  <h3>Mau makan apa hari ini?</h3>
   <main>
     <div id="posts-container">
       <% posts.forEach(post => { %>

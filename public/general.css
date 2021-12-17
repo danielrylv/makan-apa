@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif
 }
 
 main {
@@ -14,5 +16,24 @@ input, textarea {
 
 button {
   padding: 7px 15px;
+  box-sizing: border-box;
   cursor: pointer;
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #ccc;
+  border: 1px solid #333;
+}
+
+button.orange {
+  background-color: #fc940c;
+  border: 1px solid transparent;
+  color: white;
+}
+
+button.orange:hover {
+  background-color: #f28900;
+  border: 1px solid #555;
 }

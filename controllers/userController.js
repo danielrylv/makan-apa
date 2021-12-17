@@ -6,6 +6,10 @@ class Controller{
         res.render('registration')
     }
 
+    static home(req, res){
+        res.render('home')
+    }
+
     static addUser(req, res){
         const { fullname, email, password, role } = req.body
         const value = { fullname, email, password, role }
@@ -58,7 +62,6 @@ class Controller{
         .then(data => {
             if (data.length){
                 res.render('profile', { data })
-                // console.log(data[0].User.fullname);
             }
             if(!data.length){
                 res.redirect('/user/create/profile')
@@ -82,6 +85,41 @@ class Controller{
         })
         .catch(err => {
             res.send(err);
+        })
+    }
+
+    static editProfile(req, res){
+        Profile.findAll({
+            include: User,
+            where: {
+                UserId: req.session.userId
+            }
+        })
+        .then(data => {
+            if (data.length){
+                res.render('editProfile', { data })
+            }else{
+                res.redirect('/user/create/profile')
+            }
+        })
+        .catch(err => {
+            res.send(err);
+        })
+    }
+
+    static postEdit(req, res){
+        const { bio, gender, phone } = req.body
+        const value = { bio, gender, phone }
+        Profile.update(value, {
+            where: {
+                UserId: req.session.userId
+            }
+        })
+        .then(data => {
+            res.redirect('/user/profile')
+        })
+        .catch(err => {
+            res.send(err)
         })
     }
 }

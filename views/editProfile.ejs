@@ -7,18 +7,17 @@
     <title>Create Profile</title>
   </head>
   <body>
-    <h3>Your Profile isn't Complete!</h3>
-    <p>Please complete yours here!</p>
-    <form action="/user/create/profile" method="post">
+    <h3>Edit Profile</h3>
+    <form action="/user/edit/profile" method="post">
       <label>Bio :</label>
-      <input type="textarea" name="bio" /><br /><br />
+      <input type="textarea" name="bio" value="<%= data[0].bio %>" /><br /><br />
       <label>Gender : </label>
       <select name="gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
+        <option <%= data[0].gender == 'male' ? 'selected': '' %> value="male">Male</option>
+        <option <%= data[0].gender == 'female' ? 'selected': '' %> value="female">Female</option>
       </select><br><br>
       <label>Phone Number :</label>
-      <input type="text" name="phone" /><br /><br />
+      <input type="text" name="phone" value="<%= data[0].phone %>" /><br /><br />
       <button>submit</button>
     </form>
   </body>

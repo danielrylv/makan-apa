@@ -9,7 +9,9 @@ class Controller{
     static addUser(req, res){
         const { fullname, email, password, role } = req.body
         const value = { fullname, email, password, role }
-        User.create(value)
+        User.create(value, {
+            include: Profile
+        })
         .then(data => {
             res.redirect('/user/login')
         })
@@ -40,6 +42,43 @@ class Controller{
                 const error = 'INVALID FULLNAME OR PASSWORD'
                 return res.redirect(`/user/login?error=${error}`)
             }
+        })
+        .catch(err => {
+            res.send(err);
+        })
+    }
+
+    static profile(req, res){
+        Profile.findAll({
+            include: User,
+            where: {
+                UserId: req.session.userId
+            }
+        })
+        .then(data => {
+            if (data.length){
+                res.render('profile', { data })
+                // console.log(data[0].User.fullname);
+            }
+            if(!data.length){
+                res.redirect('/user/create/profile')
+            }
+        })
+        .catch(err => {
+            res.send(err);
+        })
+    }
+
+    static newProfile(req, res){
+        res.render('createProfile');
+    }
+
+    static addProfile(req, res){
+        const { bio, gender, phone } = req.body
+        const value = { bio, gender, phone, UserId: req.session.userId }
+        Profile.create(value)
+        .then(data => {
+            res.redirect('/user/profile')
         })
         .catch(err => {
             res.send(err);

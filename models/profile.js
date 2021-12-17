@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     UserId: DataTypes.INTEGER
   }, {
+    hooks: {
+      beforeCreate: (instance, options) => {
+        instance.createdAt = new Date();
+        instance.updatedAt = new Date();
+      }
+    },
     sequelize,
     modelName: 'Profile',
   });

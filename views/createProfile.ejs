@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Profile</title>
+</head>
+<body>
+    <h3>Your Profile isn't Complete!</h3>
+    <p>Please complete yours here!</p>
+    <form action="/user/create/profile" method="post">
+        <label>Bio :</label>
+        <input type="textarea" name="bio"><br><br>
+        <label>Gender : </label><br>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label><br>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label><br><br>
+        <label>Phone Number :</label>
+        <input type="text" name="phone"><br><br>
+        <button>submit</button>
+    </form>
+</body>
+</html>

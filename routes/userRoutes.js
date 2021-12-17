@@ -16,7 +16,10 @@ userRouter.use(function(req, res, next){
     }
 })
 userRouter.get('/user/home', (req, res) => {
-    res.send('ini home');
+    res.render('home');
 })
+userRouter.get('/user/create/profile', Controller.newProfile);
+userRouter.post('/user/create/profile', Controller.addProfile);
+userRouter.get('/user/profile', Controller.profile);
 
 module.exports = userRouter;

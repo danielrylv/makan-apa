@@ -15,6 +15,17 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsToMany(models.Tag, { through: 'PostTags', onDelete: 'CASCADE' });
       Post.hasMany(models.Like, { onDelete: 'CASCADE' });
     }
+
+    static filterByTagId(tagId, Tag) {
+      return Post.findAll({
+        include: ['User', 'Likes', {
+          model: Tag,
+          where: {
+            id: tagId
+          }
+        }]
+      });
+    }
   };
   Post.init({
     content: DataTypes.STRING,

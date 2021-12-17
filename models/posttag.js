@@ -14,6 +14,20 @@ module.exports = (sequelize, DataTypes) => {
       PostTag.belongsTo(models.Post);
       PostTag.belongsTo(models.Tag);
     }
+
+    static filterPostsByTagId(tagId) {
+      console.log(tagId);
+
+      return PostTag.findAll({
+        where: {
+          TagId: tagId
+        },
+        include: [{
+          model: 'Post',
+          include: ['User']
+        }]
+      })
+    }
   };
   PostTag.init({
     PostId: DataTypes.INTEGER,

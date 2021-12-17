@@ -45,9 +45,13 @@
             </div>
             <div>
               <%= post.content %>
-              <% post.Tags.forEach(tag => { %>
-                <%= `#${tag.name} ` %>
-              <% }) %>
+              <span class="tags">
+                <% post.Tags.forEach(tag => { %>
+                  <a href="/timeline?tagId=<%= tag.id %>">
+                    <%= `#${tag.name} ` %>
+                  </a>
+                <% }) %>
+              </span>
             </div>
             <div>
               <img class="post-img" src="<%= post.imgUrl %>"/>

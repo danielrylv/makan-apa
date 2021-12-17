@@ -1,4 +1,4 @@
-const { Post, Like, PostTag } = require('../models');
+const { Post, Like, PostTag, Tag } = require('../models');
 
 class Controller {
   static showHome(req, res) {
@@ -6,7 +6,16 @@ class Controller {
   }
 
   static showTimeline(req, res, next) {
-    Post.findAll({ include: ['User', 'Likes'] })
+    if (req.query.tagId) {
+      return Post.filterByTagId(req.query.tagId, Tag) 
+        .then(posts => res.render('timeline', {
+          posts,
+          userId: req.session.userId
+        }))
+        .catch(err => console.log(err));
+    }
+
+    Post.findAll({ include: ['User', 'Likes', 'Tags'] })
       .then(posts => res.render('timeline', {
         posts,
         userId: req.session.userId

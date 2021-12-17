@@ -21,9 +21,18 @@
               src="https://toppng.com/uploads/preview/icons-logos-emojis-user-icon-png-transparent-11563566676e32kbvynug.png"/>
           </div>
           <div class="second-col">
-            <div><%= post.User.fullname %></div>
+            <div class="fullname">
+              <%= post.User.fullname %>
+            </div>
             <div>
               <%= post.content %>
+              <span class="tags">
+                <% post.Tags.forEach(tag => { %>
+                  <a href="/timeline?tagId=<%= tag.id %>">
+                    <%= `#${tag.name} ` %>
+                  </a>
+                <% }) %>
+              </span>
             </div>
             <div>
               <img class="post-img"

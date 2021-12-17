@@ -1,11 +1,13 @@
-{
+require('dotenv').config();
+
+module.exports = {
   "development": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "MakanApaDB",
-    "host": "127.0.0.1",
+    "username": process.env.PG_USER,
+    "password": process.env.PG_PASSWORD,
+    "database": process.env.PG_DATABASE,
+    "host": process.env.host,
     "dialect": "postgres",
-    "port": 5432
+    "port": process.env.PG_PORT
   },
   "test": {
     "username": "root",

@@ -54,7 +54,7 @@ class Controller {
         } else {
           const error = "invalid email or password";
 
-          return res.redirect(`/user/login?error=${error}`);
+          return res.redirect(`/login?error=${error}`);
         }
       })
       .catch(next);

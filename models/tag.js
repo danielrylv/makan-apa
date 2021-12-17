@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Tag.belongsToMany(models.Post, { through: 'PostTags' });
     }
+
+    get hashTag() {
+      return `#${this.name}`;
+    }
   };
   Tag.init({
     name: DataTypes.STRING

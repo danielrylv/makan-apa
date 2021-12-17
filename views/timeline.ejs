@@ -29,7 +29,7 @@
               <span class="tags">
                 <% post.Tags.forEach(tag => { %>
                   <a href="/timeline?tagId=<%= tag.id %>">
-                    <%= `#${tag.name} ` %>
+                    <%= tag.hashTag %>
                   </a>
                 <% }) %>
               </span>

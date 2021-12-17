@@ -3,6 +3,8 @@ const {
   Model
 } = require('sequelize');
 
+const createUsername = require('../helpers/createUsername');
+
 const bcrypt = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -66,9 +68,7 @@ module.exports = (sequelize, DataTypes) => {
   },{
     hooks: {
       beforeCreate: (instance, option) => {
-        let words = instance.fullname.split(' ')
-        let codeName = words.map(el => `${el[0].toLowerCase()}${el.slice(1).toLowerCase()}`);
-        instance.username = codeName.join('_');
+        instance.username = createUsername(instance.fullname);
         const salt = bcrypt.genSaltSync(8);
         const hash = bcrypt.hashSync(instance.password, salt);
         

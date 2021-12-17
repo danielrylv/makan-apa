@@ -7,6 +7,7 @@ userRouter.get('/user/registration', Controller.registration);
 userRouter.post('/user/registration', Controller.addUser);
 userRouter.get('/user/login', Controller.login);
 userRouter.post('/user/login', Controller.postLogin);
+userRouter.get('/user/logout', Controller.logout);
 
 userRouter.use(function(req, res, next){
   if(!req.session.userId){

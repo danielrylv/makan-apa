@@ -11,6 +11,6 @@ router.get('/timeline', commonController.showTimeline);
 router.use('/api', require('./api'));
 router.use('/user', require('./user'));
 router.post('/post/:postId/delete', commonController.deletePost);
-router.use('/', (req, res) => res.send('home'));
+router.use('/', (req, res) => res.render('home'));
 
 module.exports = router;

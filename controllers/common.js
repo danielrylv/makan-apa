@@ -9,6 +9,10 @@ class Controller {
       }))
       .catch(next);
   }
+
+  static home(req, res){
+
+  }
 }
 
 module.exports = Controller;

@@ -8,11 +8,9 @@
   <link rel="stylesheet" href="/static/posts.css" />
 </head>
 <body>
+  <%- include('partials/navbar.ejs', { userId: userId }) %>
   <h1>SELAMAT DATANG DI MAKAN APA</h1>
   <h3>Mau makan apa hari ini?</h3>
-  <a href="/registration">Registration</a>
-  <a href="/login">Login</a>
-  <a href="/home">Home</a>
   <main>
     <div id="posts-container">
       <% posts.forEach(post => { %>

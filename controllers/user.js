@@ -55,10 +55,6 @@ class Controller {
       include: [Profile, Post]
     })
     .then(user => {
-      if (!user.Profile) {
-        return res.redirect('/user/create/profile')
-      }
-
       res.render('profile', { user });
     })
     .catch(next);
@@ -107,12 +103,12 @@ class Controller {
         UserId: req.session.userId,
       },
     })
-      .then((data) => {
-        res.redirect("/user/profile");
-      })
-      .catch((err) => {
-        res.send(err);
-      });
+    .then((data) => {
+      res.redirect(`/user/${req.session.userId}`);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
   }
 
   static logout(req, res) {

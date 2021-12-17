@@ -37,7 +37,7 @@ class Controller {
           req.session.userId = data.id
           const isPassword = bcrypt.compareSync(password, data.password);
           if (isPassword) {
-            return res.redirect('/user/home');
+            return res.redirect('/timeline');
           } else {
             const error = 'INVALID FULLNAME OR PASSWORD'
             return res.redirect(`/user/login?error=${error}`)

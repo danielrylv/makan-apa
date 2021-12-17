@@ -27,7 +27,9 @@ class Controller {
 
         res.redirect("/timeline");
       })
-      .catch((err) => [res.send(err)]);
+      .catch(err => {
+        res.send(err.errors.map(el => el.message))
+      })
   }
 
   static login(req, res) {

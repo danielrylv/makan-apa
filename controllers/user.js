@@ -7,9 +7,19 @@ class Controller {
   }
 
   static addUser(req, res) {
-    const { fullname, email, password, role } = req.body;
-    const value = { fullname, email, password, role };
-    User.create(value, {
+    const user = ['fullname', 'email', 'password', 'role']
+      .reduce(
+        (obj, field) => (obj[field] = req.body[field], obj),
+        {}
+      );
+
+    user.Profile = ['bio', 'phone', 'gender']
+      .reduce(
+        (obj, field) => (obj[field] = req.body[field], obj),
+        {}
+      );
+
+    User.create(user, {
       include: Profile,
     })
       .then((data) => {

@@ -30,6 +30,13 @@ body {
   width: 90%;
   margin-bottom: 17px;
 }
+
+.textareaContainer {
+  position: relative;
+  height: 95px;
+  width: 90%;
+  margin-bottom: 17px;
+}
 /* Style the inputs */
 
 .input {
@@ -117,7 +124,7 @@ body {
   bottom: 7px;
   font-size: 1rem;
   font-weight: lighter;
-  max-width: 100%;
+  width: 100%;
   padding: 22px 24px 8px 10px;
   border: none;
   background-color: transparent;
@@ -129,7 +136,7 @@ body {
   outline: none;
   box-shadow: none;
 }
-.select-dropdown:after {
+/* .select-dropdown:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -140,4 +147,12 @@ body {
   border-top: 5px solid #aaa;
   border-right: 5px solid transparent;
   border-left: 5px solid transparent;
+} */
+.select-dropdown select:disabled {
+  color: #aaa;
+}
+
+textarea.input {
+  padding: 10px 20px;
+  height: fit-content;
 }
